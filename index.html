@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Riddle Me This Code Quiz</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" type="text/css" href="./assets/css/normalize.css" />
+        <link rel="stylesheet" type="text/css" href="./assets/css/skeleton.css" />
+    </head>
+    <body>
+        <header class="container">
+            <h1>Riddle Me This Code Quiz</h1>
+            <nav>
+                <button id="highscoresBtn">Highscores</button>
+                <button id="start_timerBtn">Start</button>
+            </nav>
+        </header>
+        <main class="container">
+            <section id="questions">
+                <h2>Question</h2>
+                <form>
+                    <button class="button-primary u-full-width" id="1">1.</button>
+                    <button class="button-primary u-full-width" id="2">2.</button>
+                    <button class="button-primary u-full-width" id="3">3.</button>
+                    <button class="button-primary u-full-width" id="4">4.</button>
+                </form>
+            </section>
+            <section id="addInitials">
+                <h2>You scored:</h2>
+                <form>
+                    <label for="inputInitials">Enter your initials</label>
+                    <input class="" id="inputInitials" type="text">
+                    <button class="button-primary">Save Highscore</button>
+                </form>
+            </section>
+            <section id="highscores">
+                <h2>Highscores</h2>
+                <table class="u-full-width">
+                    <thead>
+                        <tr>
+                            <th>Initials</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ALMF</td>
+                            <td>1000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+        <script src="./assets/js/script.js"></script>
+    </body>
+</html>
