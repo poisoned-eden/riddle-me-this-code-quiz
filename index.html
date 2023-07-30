@@ -40,11 +40,12 @@
                 <h2>You ran out of time.  Try again!</h2>
             </section>
             <section id="addInitials" class="startHidden">
-                <h2>You scored:</h2>
+                <h2>You've completed all the questions.</h2>
+                <h3>You scored: <span id="result"></span> </h3>
                 <form>
                     <label for="inputInitials">Enter your initials</label>
                     <input class="" id="inputInitials" type="text">
-                    <button type="button" class="button-primary">Save Highscore</button>
+                    <button type="button" class="button-primary" id="save">Save Highscore</button>
                 </form>
             </section>
             <section id="highscores" class="startHidden">
@@ -56,11 +57,7 @@
                             <th>Score</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>ALMF</td>
-                            <td>1000</td>
-                        </tr>
+                    <tbody id="scoreTable">
                     </tbody>
                 </table>
             </section>

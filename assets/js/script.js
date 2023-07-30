@@ -9,14 +9,33 @@ var tryAgainSectionEl = document.getElementById('tryAgain');
 var addInitialsSectionEl = document.getElementById('addInitials');
 var highscoresSectionEl = document.getElementById('highscores');
 
-// question
+// questions
 var questionTitleEl = document.getElementById('questionTitle');
 var answerButtonEls = document.querySelectorAll('#questionSection button');
 
+// save score
+var resultHEl = document.getElementById('result');
+var initialsInput = document.getElementById('inputInitials');
+var saveHighscoreBtnEl = document.getElementById('save');
+
+// highscores
+var scoreTableEl = document.getElementById('scoreTable');
+
 var scoreTimer;
+var timerInterval;
 var questionIndex;
 var right;
 var wrong;
+var localHighScores = [
+    {
+        initials: 'AMF',
+        score: 75
+    },
+    {
+        initials: 'UTI',
+        score: 2
+    },
+];
 
 var questions = [
     {
@@ -54,8 +73,7 @@ var questions = [
   ];
 
 function startQuiz(event) {
-    // event.preventDefault;
-    scoreTimer = 10000;
+    scoreTimer = 75;
     questionIndex = 0;
     
     instructionsSectionEl.style.display = 'none';
@@ -67,20 +85,11 @@ function startQuiz(event) {
         scoreTimer--;
         startAndTimerEl.textContent = scoreTimer;
         
-        if (scoreTimer >= 0) {
-            // // Tests if win condition is met
-            // if (isWin && timerCount > 0) {
-                // // Clears interval and stops 
-                // clearInterval(timerInterval);
-                // // winGame();
-                // }
-            }
-            // Tests if time has run out
-            if (scoreTimer === 0) {
-                // Clears interval
-                clearInterval(timerInterval);
-                loseGame();
-            }
+        if (scoreTimer === 0) {
+            // Clears interval
+            clearInterval(timerInterval);
+            loseGame();
+        }
         }, 1000);
     
     displayQs();
@@ -89,7 +98,6 @@ function startQuiz(event) {
 function displayQs(params) {
     questionSectionEl.style.display = 'block';
     questionTitleEl.textContent = questions[questionIndex].title;
-    console.log(questionIndex);
 
     for (let i = 0; i < answerButtonEls.length; i++) {
         const answerBtn = answerButtonEls[i];
@@ -102,26 +110,54 @@ function handleAnswer(event) {
     var selectedAnswer = this.textContent;
 
     if (selectedAnswer === questions[questionIndex].answer) {
-        console.log('correct');
         startAndTimerEl.style.backgroundColor = 'green';
     } else {
-        console.log('wrong');
         startAndTimerEl.style.backgroundColor = 'red';
+        scoreTimer -= 15;
     }        
 
     if (questionIndex < questions.length -1) {
         questionIndex++;
         displayQs();
     } else {
-        winGame();
+        clearInterval(timerInterval);
+        yourScore();
     }
 
 }
 
+function yourScore(params) {
+    questionSectionEl.style.display = 'none';
+    addInitialsSectionEl.style.display = 'block';
 
+    resultHEl.textContent = scoreTimer;
 
-function winGame(params) {
-    alert(`You've completed all the questions.`);
+    saveHighscoreBtnEl.addEventListener('click', function () {
+        var saveScore = {
+            initials: initialsInput.value,
+            score: scoreTimer
+        }
+        localHighScores = JSON.parse(localStorage.getItem('scores'));
+        localHighScores.push(saveScore);
+        localStorage.setItem('scores', JSON.stringify(localHighScores));
+
+        showHighscores();
+    })
+    
+}
+
+function showHighscores() {
+    addInitialsSectionEl.style.display = 'none';
+    highscoresSectionEl.style.display = 'block';
+    localHighScores = JSON.parse(localStorage.getItem('scores'));
+    localHighScores.forEach(entry => {
+        var row = document.createElement('tr');
+        row.innerHTML = `<tr>
+                            <td>${entry.initials}</td>
+                            <td>${entry.score}</td>
+                        </tr>`;
+        scoreTableEl.appendChild(row);
+    });
 }
 
 function loseGame() {
