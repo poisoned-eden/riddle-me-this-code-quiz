@@ -1,3 +1,11 @@
 .startHidden {
     display: none;
 }
+
+.correct {
+    background-color: lightgreen;
+}
+
+.wrong {
+    background-color: lightcoral;
+}

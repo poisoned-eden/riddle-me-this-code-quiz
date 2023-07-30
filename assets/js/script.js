@@ -11,13 +11,12 @@ var highscoresSectionEl = document.getElementById('highscores');
 
 // question
 var questionTitleEl = document.getElementById('questionTitle');
-var buttonOneEl = document.getElementById('1');
-var buttonTwoEl = document.getElementById('2');
-var buttonThreeEl = document.getElementById('3');
-var buttonFourEl = document.getElementById('4');
+var answerButtonEls = document.querySelectorAll('#questionSection button');
 
 var scoreTimer;
 var questionIndex;
+var right;
+var wrong;
 
 var questions = [
     {
@@ -55,7 +54,7 @@ var questions = [
   ];
 
 function startQuiz(event) {
-    event.preventDefault;
+    // event.preventDefault;
     scoreTimer = 10000;
     questionIndex = 0;
     
@@ -90,22 +89,40 @@ function startQuiz(event) {
 function displayQs(params) {
     questionSectionEl.style.display = 'block';
     questionTitleEl.textContent = questions[questionIndex].title;
+    console.log(questionIndex);
 
-    answerButtonEls = document.querySelectorAll('#questionSection button');
     for (let i = 0; i < answerButtonEls.length; i++) {
         const answerBtn = answerButtonEls[i];
         answerBtn.textContent = questions[questionIndex].choices[i];
-        answerBtn.addEventListener('click', handleAnswer);        
+        answerBtn.addEventListener('click', handleAnswer);
     }
 }
 
 function handleAnswer(event) {
-    event.preventDefault;
-    
     var selectedAnswer = this.textContent;
-    console.log('clicked');
+
+    if (selectedAnswer === questions[questionIndex].answer) {
+        console.log('correct');
+        startAndTimerEl.style.backgroundColor = 'green';
+    } else {
+        console.log('wrong');
+        startAndTimerEl.style.backgroundColor = 'red';
+    }        
+
+    if (questionIndex < questions.length -1) {
+        questionIndex++;
+        displayQs();
+    } else {
+        winGame();
+    }
+
 }
 
+
+
+function winGame(params) {
+    alert(`You've completed all the questions.`);
+}
 
 function loseGame() {
     questionSectionEl.style.display = 'none';
