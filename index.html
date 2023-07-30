@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" type="text/css" href="./assets/css/normalize.css" />
         <link rel="stylesheet" type="text/css" href="./assets/css/skeleton.css" />
+        <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
     </head>
     <body>
         <header class="container">
@@ -16,8 +17,20 @@
             </nav>
         </header>
         <main class="container">
-            <section id="questions">
-                <h2>Question</h2>
+            <section id="instructions">
+                <h2>How to play</h2>
+                <ul>
+                    <li>You have 75 seconds.</li>
+                    <li>Pressing start shows the first question and starts the timer.</li>
+                    <li>Each question has 4 possible answers.  Click the button to choose the one you think is correct.</li>
+                    <li>Clicking the wrong answer will remove 15 seconds of time.</li>
+                    <li>The time you have left when you complete the questions is your score.</li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </section>
+            <section id="questionSection" class="startHidden">
+                <h2 id="questionTitle">Question</h2>
                 <form>
                     <button class="button-primary u-full-width" id="1">1.</button>
                     <button class="button-primary u-full-width" id="2">2.</button>
@@ -25,7 +38,10 @@
                     <button class="button-primary u-full-width" id="4">4.</button>
                 </form>
             </section>
-            <section id="addInitials">
+            <section id="tryAgain" class="startHidden">
+                <h2>You ran out of time.  Try again!</h2>
+            </section>
+            <section id="addInitials" class="startHidden">
                 <h2>You scored:</h2>
                 <form>
                     <label for="inputInitials">Enter your initials</label>
@@ -33,7 +49,7 @@
                     <button class="button-primary">Save Highscore</button>
                 </form>
             </section>
-            <section id="highscores">
+            <section id="highscores" class="startHidden">
                 <h2>Highscores</h2>
                 <table class="u-full-width">
                     <thead>
