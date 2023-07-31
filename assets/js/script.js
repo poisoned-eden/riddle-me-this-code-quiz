@@ -20,6 +20,7 @@ var saveHighscoreBtnEl = document.getElementById('save');
 
 // highscores
 var scoreTableEl = document.getElementById('scoreTable');
+var highscoreBtnEl =  document.getElementById('highscoresBtn');
 
 var scoreTimer;
 var timerInterval;
@@ -76,10 +77,9 @@ function startQuiz(event) {
     scoreTimer = 75;
     questionIndex = 0;
     
-    instructionsSectionEl.style.display = 'none';
-    
     startAndTimerEl.textContent = scoreTimer;
-    startAndTimerEl.classList.add('button-primary')
+    startAndTimerEl.disabled = true;
+    startAndTimerEl.classList.remove('button-primary')
     
     timerInterval = setInterval(function() {
         scoreTimer--;
@@ -96,7 +96,12 @@ function startQuiz(event) {
 }
     
 function displayQs(params) {
+    instructionsSectionEl.style.display = 'none';
     questionSectionEl.style.display = 'block';
+    addInitialsSectionEl.style.display = 'none';
+    highscoresSectionEl.style.display = 'none';
+    tryAgainSectionEl.style.display = 'none';
+
     questionTitleEl.textContent = questions[questionIndex].title;
 
     for (let i = 0; i < answerButtonEls.length; i++) {
@@ -111,8 +116,14 @@ function handleAnswer(event) {
 
     if (selectedAnswer === questions[questionIndex].answer) {
         startAndTimerEl.style.backgroundColor = 'green';
+        setTimeout(() => {
+            startAndTimerEl.style.backgroundColor = '';
+        }, 1000);
     } else {
         startAndTimerEl.style.backgroundColor = 'red';
+        setTimeout(() => {
+            startAndTimerEl.style.backgroundColor = '';
+        }, 1000);
         scoreTimer -= 15;
     }        
 
@@ -127,8 +138,11 @@ function handleAnswer(event) {
 }
 
 function yourScore(params) {
+    instructionsSectionEl.style.display = 'none';
     questionSectionEl.style.display = 'none';
     addInitialsSectionEl.style.display = 'block';
+    highscoresSectionEl.style.display = 'none';
+    tryAgainSectionEl.style.display = 'none';
 
     resultHEl.textContent = scoreTimer;
 
@@ -147,8 +161,16 @@ function yourScore(params) {
 }
 
 function showHighscores() {
+    instructionsSectionEl.style.display = 'none';
+    questionSectionEl.style.display = 'none';
     addInitialsSectionEl.style.display = 'none';
     highscoresSectionEl.style.display = 'block';
+    tryAgainSectionEl.style.display = 'none';
+
+    resetStartBtn();
+
+    scoreTableEl.innerHTML = '';
+
     localHighScores = JSON.parse(localStorage.getItem('scores'));
     localHighScores.forEach(entry => {
         var row = document.createElement('tr');
@@ -161,10 +183,20 @@ function showHighscores() {
 }
 
 function loseGame() {
+    instructionsSectionEl.style.display = 'none';
     questionSectionEl.style.display = 'none';
+    addInitialsSectionEl.style.display = 'none';
+    highscoresSectionEl.style.display = 'none';
     tryAgainSectionEl.style.display = 'block';
-    startAndTimerEl.textContent = 'Start';
-    startAndTimerEl.classList.remove('button-primary')
+
+    resetStartBtn();
 }
 
+function resetStartBtn() {
+    clearInterval(timerInterval);
+    startAndTimerEl.textContent = 'Start';
+    startAndTimerEl.classList.add('button-primary');
+}
+
+highscoreBtnEl.addEventListener('click', showHighscores);
 startAndTimerEl.addEventListener('click', startQuiz);
